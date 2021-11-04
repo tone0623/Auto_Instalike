@@ -5,6 +5,7 @@ from selenium.common.exceptions import WebDriverException
 import time
 import random
 import datetime
+dt_now = datetime.datetime.now()
 from webdriver_manager.chrome import ChromeDriverManager
 import Return_Value as rv
 
@@ -34,17 +35,17 @@ def login():
     f.write("instagramにログインしました\n")
     f.write(str(datetime.datetime.now()) + "\n")
     f.close()
-    time.sleep(6)
+    time.sleep(10)
 
 #ハッシュタグ検索
 def tagsearch(tag):
     instaurl = 'https://www.instagram.com/explore/tags/'
     driver.get(instaurl + tag)
-    time.sleep(random.randint(2, 10))
+    time.sleep(random.randint(8, 10))
     f = open('insta.txt','a')
     f.write("listtagより、tagで検索を行いました\n")
     f.close()
-    time.sleep(1)
+    time.sleep(4)
 
 #いいね
 def clicknice():
@@ -77,15 +78,15 @@ def clicknice():
         f.close()
         return
 
-        #17~19回いいね
-    for i in range(random.randint(17, 19)):
+        #13~16回いいね
+    for i in range(random.randint(13, 16)):
         count = i
         try:
             driver.find_element_by_class_name('coreSpriteRightPaginationArrow').click()
             f = open('insta.txt','a')
             f.write("次の投稿へ移動しました\n")
             f.close()
-            time.sleep(random.randint(random.randint(6, 8), random.randint(8, 10)))
+            time.sleep(random.randint(random.randint(8, 10), random.randint(11, 13)))
 
         except WebDriverException:
             f = open('insta.txt','a')
@@ -111,7 +112,7 @@ def clicknice():
 
 if __name__ == '__main__':
 
-    taglist = rv.return_tag()
+        taglist = rv.return_tag()
        # driver = webdriver.Chrome('./chromedriver')
         driver: WebDriver = webdriver.Chrome(ChromeDriverManager().install())
         time.sleep(1)
@@ -122,8 +123,16 @@ if __name__ == '__main__':
         clicknice()
 
         driver.close()
+        hour = dt_now.hour
+        if (23 < hour or hour < 8):
+            abc = random.randint(random.randint(32400, 32500), random.randint(32501, 32600))
+            f = open('insta.txt', 'a')
+            f.write(str(hour)+"時になりました" + str(abc) + "秒待機します。 おやすみなさい。" + "\n")
+            f.close()
 
-        abc = random.randint(random.randint(1300, 1400), random.randint(1401, 1500))
+        else:
+            abc = random.randint(random.randint(1800, 1860), random.randint(1861, 1900))
+
         f = open('insta.txt','a')
         f.write(str(abc)+"秒待機します\n")
         f.close()
